@@ -36,21 +36,6 @@ public class CameraControler : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, targetPosition, _settings.speed * Time.deltaTime);
 
     }
-
-
-    private void OnEnable()
-    {
-        InputEventManager.OnSwapControlerEvent += OnSwapControler;
-        InputEventManager.OnMoveEvent += OnMove;
-        InputEventManager.OnLookEvent += OnLook;
-    }
-
-    private void OnDisable()
-    {
-        InputEventManager.OnSwapControlerEvent -= OnSwapControler;
-        InputEventManager.OnMoveEvent -= OnMove;
-        InputEventManager.OnLookEvent -= OnLook;
-    }
 }
 
 [Serializable]
