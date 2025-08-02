@@ -10,18 +10,17 @@ public abstract class PlayerControlable
 {
     protected Transform transform;
     protected CameraControler cameraControler;
-    protected CameraControler CameraControler => cameraControler;
 
     public virtual void Initialize(Transform transform)
     {
         this.transform = transform;
-        this.cameraControler = Camera.main.GetComponent<CameraControler>();
+        if (Camera.main != null) this.cameraControler = Camera.main.GetComponent<CameraControler>();
     }
 
     public abstract void EnterControler();
     public abstract void UpdateControler(Vector2 inputDirection, Vector2 lookDelta);
     public abstract void ExitControler();
 
-    public abstract void AbilitySecond();
-    public abstract void AbilityFisrt();
+    public abstract void SecondAbility();
+    public abstract void FirstAbility();
 }

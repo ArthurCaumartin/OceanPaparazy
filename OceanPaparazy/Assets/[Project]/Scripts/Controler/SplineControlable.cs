@@ -34,7 +34,7 @@ public class SplineControlable : PlayerControlable
 
     public override void UpdateControler(Vector2 inputDirection, Vector2 lookDelta)
     {
-        Debug.Log($"SplineControlable UpdateControler | dir : {inputDirection} | look : {lookDelta}");
+        //Debug.Log($"SplineControlable UpdateControler | dir : {inputDirection} | look : {lookDelta}");
 
         _dynamiqueSpeedX = GetDynamicSpeed(_dynamiqueSpeedX, inputDirection.x, _movementAcceleration);
         _dynamiqueSpeedY = GetDynamicSpeed(_dynamiqueSpeedY, inputDirection.y, _movementAcceleration);
@@ -59,14 +59,14 @@ public class SplineControlable : PlayerControlable
         _dynamiqueSpeedY = 0;
     }
 
-    public override void AbilitySecond()
+    public override void SecondAbility()
     {
-        throw new System.NotImplementedException();
+        
     }
 
-    public override void AbilityFisrt()
+    public override void FirstAbility()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     private void SetToSplinePosition(Transform transformToPlace, float time, float altitude = 0)

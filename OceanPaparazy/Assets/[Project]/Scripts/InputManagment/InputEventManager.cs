@@ -27,26 +27,22 @@ public class InputEventManager : MonoBehaviour
     private void OnMove(InputValue value)
     {
         Vector2 inputDirection = value.Get<Vector2>();
-        if (OnMoveEvent != null)
-            OnMoveEvent.Invoke(inputDirection);
+        OnMoveEvent?.Invoke(inputDirection);
     }
 
     private void OnLook(InputValue value)
     {
         Vector2 lookDelta = value.Get<Vector2>();
-        if (OnLookEvent != null)
-            OnLookEvent.Invoke(lookDelta);
+        OnLookEvent?.Invoke(lookDelta);
     }
 
-    private void OnAbilityFirst(InputValue value)
+    private void OnFirstAbility(InputValue value)
     {
-        if (OnAbilityFirstEvent != null)
-            OnAbilityFirstEvent.Invoke();
+        OnAbilityFirstEvent?.Invoke();
     }
 
-    private void OnAbilitySecond(InputValue value)
+    private void OnSecondAbility(InputValue value)
     {
-        if (OnAbilitySecondEvent != null)
-            OnAbilitySecondEvent.Invoke();
+        OnAbilitySecondEvent?.Invoke();
     }
 }

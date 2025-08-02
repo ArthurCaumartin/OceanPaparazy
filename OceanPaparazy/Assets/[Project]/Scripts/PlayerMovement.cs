@@ -36,8 +36,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetControler(PlayerControlable toSet)
     {
-        print($"toSet : {toSet}");
-        print($"current : {_currentControler}");
+        //print($"toSet : {toSet}");
+        //print($"current : {_currentControler}");
 
         if (toSet == _currentControler) return;
         
@@ -63,11 +63,23 @@ public class PlayerMovement : MonoBehaviour
         _lookDelta = value;
     }
 
+    private void OnFirstAbility()
+    {
+        _currentControler?.FirstAbility();
+    }
+    
+    private void OnSecondAbility()
+    {
+        _currentControler?.SecondAbility();
+    }
+
     private void OnEnable()
     {
         InputEventManager.OnSwapControlerEvent += OnSwapControler;
         InputEventManager.OnMoveEvent += OnMove;
         InputEventManager.OnLookEvent += OnLook;
+        InputEventManager.OnAbilityFirstEvent += OnFirstAbility;
+        InputEventManager.OnAbilitySecondEvent += OnSecondAbility;
     }
 
     private void OnDisable()
@@ -75,5 +87,7 @@ public class PlayerMovement : MonoBehaviour
         InputEventManager.OnSwapControlerEvent -= OnSwapControler;
         InputEventManager.OnMoveEvent -= OnMove;
         InputEventManager.OnLookEvent -= OnLook;
+        InputEventManager.OnAbilityFirstEvent -= OnFirstAbility;
+        InputEventManager.OnAbilitySecondEvent -= OnSecondAbility;
     }
 }

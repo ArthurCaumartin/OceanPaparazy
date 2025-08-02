@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -7,6 +6,7 @@ public class PhotoControlable : PlayerControlable
 {
     [SerializeField] private float _lookSensivity = 2f;
     [SerializeField] private float _maxLookAngleX = 80f;
+    [SerializeField] private PhotoCameraDetector _photoCameraDetector;
     private float _currentAngleX;
 
     public override void EnterControler()
@@ -14,6 +14,13 @@ public class PhotoControlable : PlayerControlable
         cameraControler.SetControler(transform, CameraSettings.PhotoDefault);
     }
 
+    public override void Initialize(Transform transform)
+    {
+        base.Initialize(transform);
+        
+        _photoCameraDetector = cameraControler.GetComponent<PhotoCameraDetector>();
+    }
+    
     public override void UpdateControler(Vector2 inputDirection, Vector2 lookDelta)
     {
         _currentAngleX += lookDelta.y * _lookSensivity * Time.deltaTime;
@@ -27,12 +34,12 @@ public class PhotoControlable : PlayerControlable
 
     }
 
-    public override void AbilityFisrt()
+    public override void FirstAbility()
     {
-
+        _photoCameraDetector.TakePhoto();
     }
 
-    public override void AbilitySecond()
+    public override void SecondAbility()
     {
 
     }
