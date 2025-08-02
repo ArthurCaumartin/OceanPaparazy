@@ -1,47 +1,75 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class CameraControler : MonoBehaviour
 {
-    public string DEBUG_CAMERA_NAME;
     [SerializeField] private Transform _target;
+    [SerializeField] private CameraSettings _settings;
 
-    [SerializeField] private CameraStateFisrtPersonne _firstPersonneState = new CameraStateFisrtPersonne();
-    [SerializeField] private CameraStateThirdPersonne _thirdPersonneState = new CameraStateThirdPersonne();
-    private ICameraState _currentState;
+    /// fps (remote control)
+    /// tps (local control with remote effect)
 
-    public Transform Target { get => _target; }
-
-    public CameraStateFisrtPersonne FisrtPersonne { get => _firstPersonneState; }
-    public CameraStateThirdPersonne ThirdPersonne { get => _thirdPersonneState; }
-
-    private Vector2 _inputVector;
-    public Vector2 InputVector { get => _inputVector; }
-
-
-    private void Start()
+    private void Awake()
     {
-        _firstPersonneState.Initialise(this);
-        _thirdPersonneState.Initialise(this);
-
-        SetState(ThirdPersonne);
+        _settings = CameraSettings.Default;
     }
 
-    private void Update()
+    public void SetControler(Transform target, CameraSettings settings)
     {
-        DEBUG_CAMERA_NAME = _currentState.ToString();
-        _currentState.UpdateState();
+        _target = target;
+        _settings = settings;
     }
 
-    private void OnLook(InputValue value)
+    public void SendInput(Vector2 movementDirection, Vector2 lookDelta)
     {
-        print("skldhburg");
-        _inputVector = value.Get<Vector2>();
+
     }
 
-    public void SetState(ICameraState toSet)
+    public void UpdateCamera()
     {
-        if (_currentState == toSet) return;
-        _currentState = toSet;
+        if (_target == null) return;
+
+        Vector3 targetPosition = _target.position + _settings.targetPositionOffset;
+        transform.position = Vector3.Lerp(transform.position, targetPosition, _settings.speed * Time.deltaTime);
+
     }
+
+
+    private void OnEnable()
+    {
+        InputEventManager.OnSwapControlerEvent += OnSwapControler;
+        InputEventManager.OnMoveEvent += OnMove;
+        InputEventManager.OnLookEvent += OnLook;
+    }
+
+    private void OnDisable()
+    {
+        InputEventManager.OnSwapControlerEvent -= OnSwapControler;
+        InputEventManager.OnMoveEvent -= OnMove;
+        InputEventManager.OnLookEvent -= OnLook;
+    }
+}
+
+[Serializable]
+public struct CameraSettings
+{
+    public float speed;
+    public float distance;
+    public Vector3 targetPositionOffset;
+    public float rotationSpeed;
+    public bool listenInput;
+
+    public CameraSettings(float speed, float distance, Vector3 targetPositionOffset, float rotationSpeed, bool listenInput)
+    {
+        this.speed = speed;
+        this.distance = distance;
+        this.targetPositionOffset = targetPositionOffset;
+        this.rotationSpeed = rotationSpeed;
+        this.listenInput = listenInput;
+    }
+
+    public static CameraSettings Default => new CameraSettings(5f, 5f, Vector3.zero, 5f, true);
 }

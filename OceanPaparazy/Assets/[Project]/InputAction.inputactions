@@ -15,7 +15,25 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Shoot",
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "9a9adf18-4d39-4475-8c7c-d6257af0427e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SwapControler",
+                    "type": "Button",
+                    "id": "6c90c1c9-21bd-4ad2-9b47-ce60170beb37",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "FirstAbility",
                     "type": "Button",
                     "id": "94895edc-3acd-4d4c-acbd-7d8aedf10adc",
                     "expectedControlType": "",
@@ -24,22 +42,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ChangeControlerState",
+                    "name": "SecondAbility",
                     "type": "Button",
-                    "id": "e3e4c67f-3ee8-45f4-b502-c00e6369bcb3",
+                    "id": "4f301f70-9c9c-4ed8-90c9-cbe6b75d7b95",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Move",
-                    "type": "Value",
-                    "id": "9a9adf18-4d39-4475-8c7c-d6257af0427e",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -56,23 +65,34 @@
                 },
                 {
                     "name": "",
-                    "id": "14f55e23-ac5d-46b0-97c5-f07a9099ea0e",
-                    "path": "<Gamepad>/rightShoulder",
+                    "id": "a2919c42-eeea-4ee6-aec7-56efcd22638c",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoot",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "1a3e741d-0335-446b-8800-0b0a35bf9b11",
-                    "path": "<Gamepad>/buttonEast",
+                    "id": "14f55e23-ac5d-46b0-97c5-f07a9099ea0e",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ChangeControlerState",
+                    "action": "FirstAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec35a717-ae51-41ea-a7d5-932c28cc41b9",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FirstAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -130,6 +150,28 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "bdfaf272-cb34-4971-b6aa-863c234278d8",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapControler",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a086100-576d-4ee7-8799-241bc7f3a49a",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SecondAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
