@@ -1,7 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
+using System.Threading.Tasks;
+using UnityEngine;
 using UnityEditor;
+using Alchemy.Inspector;
 
 public class PhotoCameraDetector : MonoBehaviour
 {
@@ -12,41 +15,22 @@ public class PhotoCameraDetector : MonoBehaviour
 
     [Header("Sauvegarde")] [Tooltip("Chemin complet de sauvegarde. Exemple : C:/Users/TonNom/Documents/MyScreenshots")]
     public string _saveFolderPath = ""; // À définir dans l’inspector
-    
-    public List<Texture2D> _sprites;
-    
-    public void TakePhoto()
+
+    public List<Texture2D> _sprites = new List<Texture2D>();
+    public int _limit = 10;
+    private int index = 0;
+
+    [Button]
+    public void PrintPhotos()
     {
-        bool specialItemVisible = PerformBoxCast();
-
-        // Sauvegarde
-        SaveRenderTextureToPNG(_renderTexture, specialItemVisible);
-
-        // Log
-        //Debug.Log(specialItemVisible
-        //    ? "📸 Objet spécial visible dans la photo !"
-        //    : "📸 Aucun objet spécial détecté.");
-
-        if (Application.isEditor)
-            AssetDatabase.Refresh();
+        StartCoroutine(SavePhotosCoroutine());
     }
 
-    private void SaveRenderTextureToPNG(RenderTexture rt, bool specialItemDetected)
+    private IEnumerator SavePhotosCoroutine()
     {
-        RenderTexture currentRT = RenderTexture.active;
-        RenderTexture.active = rt;
-
-        Texture2D image = new Texture2D(rt.width, rt.height, TextureFormat.RGBA32, false);
-        image.ReadPixels(new Rect(0, 0, rt.width, rt.height), 0, 0);
-        image.Apply();
-
-        byte[] bytes = image.EncodeToPNG();
-        Object.DestroyImmediate(image);
-
-        // Vérifier et créer le dossier si nécessaire
         if (string.IsNullOrEmpty(_saveFolderPath))
         {
-            _saveFolderPath =  Application.dataPath;
+            _saveFolderPath = Application.dataPath;
         }
 
         if (!Directory.Exists(_saveFolderPath))
@@ -54,35 +38,71 @@ public class PhotoCameraDetector : MonoBehaviour
             Directory.CreateDirectory(_saveFolderPath);
         }
 
-        string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        string fileName = specialItemDetected
-            ? $"Photo_SPECIAL_{timestamp}.png"
-            : $"Photo_{timestamp}.png";
+        for (int i = 0; i < _sprites.Count; i++)
+        {
+            Texture2D tex = _sprites[i];
+            byte[] bytes = tex.EncodeToPNG(); // Encode synchroniquement (obligatoire)
 
-        string filePath = Path.Combine(_saveFolderPath, fileName);
-        File.WriteAllBytes(filePath, bytes);
+            string fileName = $"SavedPhoto_{i + 1}.png";
+            string filePath = Path.Combine(_saveFolderPath, fileName);
 
-        //Debug.Log($"💾 Photo sauvegardée : {filePath}");
+            // Écriture disque asynchrone, on attend que ça finisse sans bloquer le main thread
+            Task writeTask = File.WriteAllBytesAsync(filePath, bytes);
+            while (!writeTask.IsCompleted)
+            {
+                yield return new WaitForSeconds(1); // attend la fin de la sauvegarde sans freeze
+            }
 
-        RenderTexture.active = currentRT;
+            Debug.Log($"💾 Photo {i + 1} sauvegardée : {filePath}");
+
+            yield return new WaitForSeconds(1); // Découpe le traitement frame par frame pour éviter le freeze
+        }
+
+        if (Application.isEditor)
+            AssetDatabase.Refresh();
     }
 
-    private bool PerformBoxCast()
+    public void TakePhoto()
     {
-        // Calculer la hauteur et largeur du frustum à maxDistance
+        //bool specialItemVisible = PerformBoxCast();
+
+        AddSpriteToList();
+
+        if (Application.isEditor)
+            AssetDatabase.Refresh();
+    }
+
+    private void AddSpriteToList()
+    {
+        RenderTexture.active = _renderTexture;
+
+        Texture2D image = new(_renderTexture.width, _renderTexture.height, TextureFormat.RGBA32, false);
+        image.ReadPixels(new Rect(0, 0, _renderTexture.width, _renderTexture.height), 0, 0);
+        image.Apply();
+
+        if (_sprites.Count < _limit)
+        {
+            _sprites.Add(image);
+        }
+        else
+        {
+            _sprites[index] = image;
+            index++;
+            index %= _limit;
+        }
+    }
+
+    /*private bool PerformBoxCast()
+    {
         float frustumHeight = 2.0f * _maxDistance * Mathf.Tan(_photoCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
         float frustumWidth = frustumHeight * _photoCamera.aspect;
 
-        // Half extents du box (la moitié de la taille)
         Vector3 halfExtents = new Vector3(frustumWidth / 2f, frustumHeight / 2f, 1);
-        // On prend une petite épaisseur en profondeur (z) car on va faire un boxcast en ligne
-
         Vector3 origin = _photoCamera.transform.position + _photoCamera.transform.forward * (halfExtents.z / 2f);
         Vector3 direction = _photoCamera.transform.forward;
-        
-        // Lance le BoxCast
-        return (Physics.BoxCast(origin, halfExtents, direction, out RaycastHit hit, _photoCamera.transform.rotation,
+
+        return Physics.BoxCast(origin, halfExtents, direction, out RaycastHit hit, _photoCamera.transform.rotation,
             _maxDistance,
-            _specialLayerName));
-    }
+            _specialLayerName);
+    }*/
 }

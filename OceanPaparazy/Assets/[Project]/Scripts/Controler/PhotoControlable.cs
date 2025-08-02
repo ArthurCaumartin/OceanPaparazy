@@ -41,7 +41,7 @@ public class PhotoControlable : PlayerControlable
 
     public override void SecondAbility()
     {
-
+        _photoCameraDetector.PrintPhotos();
     }
 
 }

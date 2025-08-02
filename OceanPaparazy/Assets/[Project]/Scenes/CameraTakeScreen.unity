@@ -232,7 +232,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -2
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 65
@@ -1127,8 +1127,10 @@ MonoBehaviour:
   _specialLayerName:
     serializedVersion: 2
     m_Bits: 64
-  _maxDistance: 50
+  _maxDistance: 100
   _saveFolderPath: D:/GitHub/Projet/OceanPaparazy/OceanPaparazy/Assets
+  _sprites: []
+  _limit: 5
 --- !u!1 &359971921
 GameObject:
   m_ObjectHideFlags: 0
