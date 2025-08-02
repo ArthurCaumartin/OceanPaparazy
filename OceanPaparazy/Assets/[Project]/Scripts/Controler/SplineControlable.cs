@@ -1,45 +1,39 @@
-
 using System;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Splines;
 
 [Serializable]
-public abstract class Controler
+public class SplineControlable : PlayerControlable
 {
-    [SerializeField] protected float movementSpeed;
-    [SerializeField] protected float movementAcceleration;
-    public abstract void EnterControler();
-    public abstract void UpdateControler(Vector2 inputDirection);
-    public abstract void ExitControler();
-}
-
-
-public class SplineControler : Controler
-{
-    [SerializeField] private float _movementSpeed;
-    [SerializeField] private float _movementAcceleration;
+    [SerializeField] private float _movementSpeed = 5f;
+    [SerializeField] private float _movementAcceleration = 2f;
+    [Space]
+    [SerializeField] private Transform _meshTransform;
     private float _currentSplineTime = 0.5f;
     private float _dynamiqueSpeedX;
     private float _dynamiqueSpeedY;
     private float _currentAltitude;
     private SplineContainer _splineContainer;
-    private Transform _transform;
-
-
-    public void Initialize(Transform transform, SplineContainer splineContainer)
-    {
-        _transform = transform;
-        _splineContainer = splineContainer;
-    }
 
     public override void EnterControler()
     {
+        GoOnNearSplinePoint(transform, _splineContainer);
 
+        SetToSplinePosition(transform, _currentSplineTime, _currentAltitude);
+        SetToSplineRotation(transform, _currentSplineTime);
     }
 
-    public override void UpdateControler(Vector2 inputDirection)
+    public void SetSplineContainer(SplineContainer splineContainer)
     {
+        _splineContainer = splineContainer;
+    }
+
+    public override void UpdateControler(Vector2 inputDirection, Vector2 lookDelta)
+    {
+        Debug.Log($"SplineControlable UpdateControler | dir : {inputDirection} | look : {lookDelta}");
+
         _dynamiqueSpeedX = GetDynamicSpeed(_dynamiqueSpeedX, inputDirection.x, _movementAcceleration);
         _dynamiqueSpeedY = GetDynamicSpeed(_dynamiqueSpeedY, inputDirection.y, _movementAcceleration);
 
@@ -52,13 +46,25 @@ public class SplineControler : Controler
         if (_currentSplineTime > 1) _currentSplineTime = 0;
         if (_currentSplineTime < 0) _currentSplineTime = 1;
 
-        SetToSplinePosition(_transform, _currentSplineTime, _currentAltitude);
-        // AnimateMesh(_dynamiqueSpeedX, _movementSpeed);
+        SetToSplinePosition(transform, _currentSplineTime, _currentAltitude);
+        SetToSplineRotation(transform, _currentSplineTime);
+        AnimateMesh(_dynamiqueSpeedX, _movementSpeed);
     }
 
     public override void ExitControler()
     {
+        _dynamiqueSpeedX = 0;
+        _dynamiqueSpeedY = 0;
+    }
 
+    public override void AbilitySecond()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void AbilityFisrt()
+    {
+        throw new System.NotImplementedException();
     }
 
     private void SetToSplinePosition(Transform transformToPlace, float time, float altitude = 0)
@@ -69,11 +75,18 @@ public class SplineControler : Controler
         _splineContainer[0].Evaluate(time, out splinePos, out splineTangent, out splineUp);
 
         Vector3 splineWorldPos = _splineContainer.transform.TransformPoint(splinePos);
-        Quaternion lookDirection = Quaternion.LookRotation(Vector3.Cross(splineTangent, splineUp), splineUp);
-
-        // print($"Spline Pos To Set at {time} time : {splineWorldPos}");
         transformToPlace.position = splineWorldPos + (Vector3.up * altitude);
-        transformToPlace.rotation = lookDirection;
+    }
+
+    private void SetToSplineRotation(Transform transformToRotate, float time)
+    {
+        float3 splinePos;
+        float3 splineUp;
+        float3 splineTangent;
+        _splineContainer[0].Evaluate(time, out splinePos, out splineTangent, out splineUp);
+
+        Quaternion lookDirection = Quaternion.LookRotation(Vector3.Cross(splineTangent, splineUp), splineUp);
+        transformToRotate.rotation = lookDirection;
     }
 
     private float GetDynamicSpeed(float current, float target, float acceleration)
@@ -87,6 +100,14 @@ public class SplineControler : Controler
         Vector3 playerSplineLocalPos = splineContainer.transform.InverseTransformPoint(transform.position);
         // print(playerSplineLocalPos);
         SplineUtility.GetNearestPoint(splineContainer[0], playerSplineLocalPos, out nearPoint, out _currentSplineTime);
+        nearPoint = splineContainer.transform.TransformPoint(nearPoint);
         transform.position = new Vector3(nearPoint.x, transform.position.y, nearPoint.z);
+    }
+
+    public void AnimateMesh(float speedX, float maxSpeed)
+    {
+        float time = Mathf.InverseLerp(-maxSpeed, maxSpeed, speedX);
+        float angle = Mathf.Lerp(50, -50, time);
+        _meshTransform.eulerAngles = new Vector3(_meshTransform.eulerAngles.x, _meshTransform.eulerAngles.y, angle);
     }
 }
