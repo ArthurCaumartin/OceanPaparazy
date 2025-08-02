@@ -973,8 +973,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1b3c1c49a8ca146819d2beaf6c397a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DEBUG_CAMERA_NAME: 
   _target: {fileID: 1831684851}
+  _settings:
+    distance: 0
+    inputSensitivity: 0
+    targetPositionOffset: {x: 0, y: 0, z: 0}
+    cameraPositionOffset: {x: 0, y: 0, z: 0}
+    isFirstPerson: 0
 --- !u!1 &359971921
 GameObject:
   m_ObjectHideFlags: 0
@@ -20224,11 +20229,11 @@ MonoBehaviour:
   _camera: {fileID: 330585545}
   _splineContainer: {fileID: 1266308556}
   _splineControler:
-    _movementSpeed: 5
-    _movementAcceleration: 2
+    _movementSpeed: 15
+    _movementAcceleration: 5
     _meshTransform: {fileID: 386755343}
   _photoControler:
-    _lookSensivity: 2
+    _lookSensivity: 9.4
     _maxLookAngleX: 80
 --- !u!43 &1838917480
 Mesh:
