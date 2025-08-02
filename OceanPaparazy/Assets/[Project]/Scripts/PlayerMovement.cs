@@ -38,11 +38,14 @@ public class PlayerMovement : MonoBehaviour
     {
         print($"toSet : {toSet}");
         print($"current : {_currentControler}");
+
         if (toSet == _currentControler) return;
+        
         _currentControler?.ExitControler();
         _currentControler = toSet;
         _debug_state_name = _currentControler.ToString();
         _currentControler.EnterControler();
+        
     }
 
     private void OnSwapControler()

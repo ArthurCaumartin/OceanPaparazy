@@ -23,6 +23,8 @@ public class SplineControlable : PlayerControlable
 
         SetToSplinePosition(transform, _currentSplineTime, _currentAltitude);
         SetToSplineRotation(transform, _currentSplineTime);
+
+        cameraControler.SetControler(transform, CameraSettings.SplineDefault);
     }
 
     public void SetSplineContainer(SplineContainer splineContainer)
