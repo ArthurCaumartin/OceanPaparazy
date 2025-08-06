@@ -37,4 +37,10 @@ public struct CameraSettings
         new Vector3(0, 0f, 0),
         new Vector3(0, 1.5f, 0),
         true);
+    public static CameraSettings DroneDefault => new CameraSettings(
+        0f,
+        1f,
+        new Vector3(0, 0f, 0),
+        new Vector3(0, 0f, 0),
+        true);
 }

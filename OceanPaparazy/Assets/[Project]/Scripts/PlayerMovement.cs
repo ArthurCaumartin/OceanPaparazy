@@ -11,9 +11,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("Controlers : ")]
     [SerializeField] private SplineControlable _splineControler = new SplineControlable();
     [SerializeField] private PhotoControlable _photoControler = new PhotoControlable();
+    [SerializeField] private DroneControlable _droneControler = new DroneControlable();
 
     public SplineControlable SplineControler { get => _splineControler; }
     public PhotoControlable PhotoControler { get => _photoControler; }
+    public DroneControlable DroneControler { get => _droneControler; }
     private PlayerControlable _currentControler;
 
     private Vector2 _inputDirection;
@@ -25,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         _splineControler.SetSplineContainer(_splineContainer);
 
         _photoControler.Initialize(transform);
+        _droneControler.Initialize(transform);
 
         SetControler(SplineControler);
     }
@@ -36,21 +39,34 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetControler(PlayerControlable toSet)
     {
-        //print($"toSet : {toSet}");
-        //print($"current : {_currentControler}");
-
         if (toSet == _currentControler) return;
-        
+
         _currentControler?.ExitControler();
         _currentControler = toSet;
         _debug_state_name = _currentControler.ToString();
         _currentControler.EnterControler();
-        
+
     }
 
     private void OnSwapControler()
     {
-        SetControler(_currentControler is SplineControlable ? PhotoControler : SplineControler);
+        if (_currentControler is SplineControlable)
+        {
+            SetControler(PhotoControler);
+            return;
+        }
+
+        if (_currentControler is DroneControlable)
+        {
+            SetControler(SplineControler);
+            return;
+        }
+
+        if (_currentControler is PhotoControlable)
+        {
+            SetControler(DroneControler);
+            return;
+        }
     }
 
     private void OnMove(Vector2 value)
@@ -67,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _currentControler?.FirstAbility();
     }
-    
+
     private void OnSecondAbility()
     {
         _currentControler?.SecondAbility();
