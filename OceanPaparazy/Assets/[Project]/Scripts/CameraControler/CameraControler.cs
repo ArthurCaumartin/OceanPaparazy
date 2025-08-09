@@ -1,7 +1,5 @@
-using System;
-using Unity.VisualScripting;
+using Alchemy.Inspector;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 
 public class CameraControler : MonoBehaviour
@@ -12,6 +10,7 @@ public class CameraControler : MonoBehaviour
     private Vector2 _inputMovementDirection;
     private Vector2 _inputLookDirection;
     private float _currentAngleXOffset;
+
 
     private void Awake()
     {
@@ -47,8 +46,9 @@ public class CameraControler : MonoBehaviour
 
     private void UpdateFirstPersonCamera()
     {
-        Quaternion targetRotation = Quaternion.Euler(-_currentAngleXOffset, _target.eulerAngles.y, 0);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10);
+        float xAngleTarget = _settings.followTargetForwardVertical ? _target.eulerAngles.x : -_currentAngleXOffset;
+        Quaternion targetRotation = Quaternion.Euler(xAngleTarget, _target.eulerAngles.y, 0);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _settings.followSpeed);
 
         LerpToTargetPosition(_target.position + _settings.cameraPositionOffset);
     }
@@ -57,12 +57,12 @@ public class CameraControler : MonoBehaviour
     {
         Vector3 targetPosition = _target.position + _settings.targetPositionOffset;
         LerpToTargetPosition(_target.position + (_target.forward * -_settings.distance) + _settings.cameraPositionOffset);
-        transform.forward = Vector3.Slerp(transform.forward, (targetPosition - transform.position).normalized, Time.deltaTime);
+        transform.forward = Vector3.Slerp(transform.forward, (targetPosition - transform.position).normalized, Time.deltaTime * _settings.followSpeed);
     }
 
     private void LerpToTargetPosition(Vector3 targetPosition)
     {
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10);
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * _settings.followSpeed);
     }
 
     public void SetMovementInput(Vector2 inputDirection)

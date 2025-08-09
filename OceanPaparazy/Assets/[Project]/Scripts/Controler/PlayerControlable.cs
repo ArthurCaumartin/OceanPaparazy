@@ -1,4 +1,5 @@
 using System;
+using Alchemy.Inspector;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +7,7 @@ using UnityEngine;
 /// This class should be instantiateable and used in a class that will manage swap between controler like PlayerMovement.
 
 [Serializable]
+[BoxGroup]
 public abstract class PlayerControlable
 {
     protected Transform transform;
@@ -23,4 +25,5 @@ public abstract class PlayerControlable
 
     public abstract void SecondAbility();
     public abstract void FirstAbility();
+
 }
