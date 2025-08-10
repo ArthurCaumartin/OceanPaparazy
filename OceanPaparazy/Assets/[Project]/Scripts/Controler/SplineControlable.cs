@@ -24,7 +24,7 @@ public class SplineControlable : PlayerControlable
         SetToSplinePosition(transform, _currentSplineTime, _currentAltitude);
         SetToSplineRotation(transform, _currentSplineTime);
 
-        cameraControler.SetControler(transform, CameraSettings.SplineDefault);
+        cameraStateMachine.SetState(cameraStateMachine.CameraStateSpline, transform);
     }
 
     public void SetSplineContainer(SplineContainer splineContainer)
@@ -57,16 +57,6 @@ public class SplineControlable : PlayerControlable
     {
         _dynamiqueSpeedX = 0;
         _dynamiqueSpeedY = 0;
-    }
-
-    public override void SecondAbility()
-    {
-        
-    }
-
-    public override void FirstAbility()
-    {
-        
     }
 
     private void SetToSplinePosition(Transform transformToPlace, float time, float altitude = 0)

@@ -5,57 +5,47 @@ using UnityEngine;
 [Serializable]
 public class DroneControlable : PlayerControlable
 {
+    [SerializeField] private Rigidbody _droneRigidbody;
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private float _movementAcceleration = 2f;
     [SerializeField] private float _lookSensivity = 2f;
     [SerializeField] private float _maxLookAngleX = 80f;
-    [SerializeField] private Transform _droneTransform;
     private float _currentAngleX;
-    private Rigidbody _rigidbody;
 
     public override void Initialize(Transform transform)
     {
         base.Initialize(transform);
-        _rigidbody = _droneTransform.GetComponent<Rigidbody>();
     }
 
     public override void EnterControler()
     {
-        cameraControler.SetControler(_droneTransform, CameraSettings.DroneDefault);
+        Debug.Log("DroneControlable: EnterControler | Set camera target to : " + _droneRigidbody.transform.name);
+        cameraStateMachine.SetState(cameraStateMachine.CameraStateFirstPerson, _droneRigidbody.transform);
 
-        Vector3 newForward = _droneTransform.forward;
+        Vector3 newForward = _droneRigidbody.transform.forward;
         newForward.y = 0;
-        _droneTransform.rotation = Quaternion.LookRotation(newForward, Vector3.up);
+        _droneRigidbody.rotation = Quaternion.LookRotation(newForward, Vector3.up);
 
-        _rigidbody.angularVelocity = Vector3.zero;
-        _rigidbody.linearVelocity = Vector3.zero;
+        _droneRigidbody.angularVelocity = Vector3.zero;
+        _droneRigidbody.linearVelocity = Vector3.zero;
     }
 
-    public override void UpdateControler(Vector2 inputDirection, Vector2 lookDelta)
+    public override void FixedUpdateControler(Vector2 inputDirection, Vector2 lookDelta)
     {
-        Vector3 moveDirection = new Vector3(inputDirection.x, 0, inputDirection.y) * _movementSpeed * Time.deltaTime;
-        _droneTransform.Translate(moveDirection, Space.Self);
+        // move with velocity
+        Vector3 targetVelocity = new Vector3(inputDirection.x, 0, inputDirection.y) * _movementSpeed * Time.deltaTime;
+        targetVelocity = _droneRigidbody.rotation * targetVelocity;
+        _droneRigidbody.linearVelocity = Vector3.Lerp(_droneRigidbody.linearVelocity
+                                                    , targetVelocity
+                                                    , _movementAcceleration * Time.deltaTime);
 
+        // rotate
         _currentAngleX += lookDelta.y * _lookSensivity * Time.deltaTime;
         _currentAngleX = Mathf.Clamp(_currentAngleX, -_maxLookAngleX, _maxLookAngleX);
-        // cameraControler.SetXAngleOffset(_currentAngleX);
-        // _droneTransform.eulerAngles = new Vector3(_currentAngleX, _droneTransform.eulerAngles.y + lookDelta.x * _lookSensivity * Time.deltaTime, 0);
-        _droneTransform.Rotate(new Vector3(0, lookDelta.x * _lookSensivity * Time.deltaTime));
-    }
-
-    public override void ExitControler()
-    {
-
-    }
-
-    public override void SecondAbility()
-    {
-
-    }
-
-    public override void FirstAbility()
-    {
-
+        _droneRigidbody.rotation = Quaternion.Euler(-_currentAngleX
+                                                    , _droneRigidbody.rotation.eulerAngles.y + lookDelta.x * _lookSensivity * Time.deltaTime
+                                                    , 0);
+        _droneRigidbody.angularVelocity = Vector3.zero;
     }
 }
 

@@ -34,7 +34,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _currentControler.UpdateControler(_inputDirection, _lookDelta);
+        _currentControler?.UpdateControler(_inputDirection, _lookDelta);
+    }
+
+    private void FixedUpdate()
+    {
+        _currentControler?.FixedUpdateControler(_inputDirection, _lookDelta);
     }
 
     public void SetControler(PlayerControlable toSet)

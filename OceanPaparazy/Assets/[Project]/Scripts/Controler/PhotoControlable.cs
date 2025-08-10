@@ -4,41 +4,53 @@ using UnityEngine;
 [Serializable]
 public class PhotoControlable : PlayerControlable
 {
+    [SerializeField] private Rigidbody _droneRb;
+    [SerializeField] private Transform _cameraPivot;
+    [Space]
     [SerializeField] private float _lookSensivity = 2f;
     [SerializeField] private float _maxLookAngleX = 80f;
     [SerializeField] private float _droneDistance = 2;
     [SerializeField] private float _droneFollowSpeed = 2;
-    [SerializeField] private Transform _droneTransorm;
     private PhotoCameraDetector _photoCameraDetector;
     private float _currentAngleX;
 
     public override void EnterControler()
     {
-        cameraControler.SetControler(transform, CameraSettings.PhotoDefault);
-        _droneTransorm.parent = null;
+        cameraStateMachine.SetState(cameraStateMachine.CameraStateFirstPerson, _cameraPivot);
+        _droneRb.transform.parent = null;
     }
 
     public override void Initialize(Transform transform)
     {
         base.Initialize(transform);
-        _photoCameraDetector = cameraControler.GetComponent<PhotoCameraDetector>();
+        _photoCameraDetector = cameraStateMachine.GetComponent<PhotoCameraDetector>();
     }
 
-    public override void UpdateControler(Vector2 inputDirection, Vector2 lookDelta)
+    public override void FixedUpdateControler(Vector2 inputDirection, Vector2 lookDelta)
     {
-        _currentAngleX += lookDelta.y * _lookSensivity * Time.deltaTime;
-        _currentAngleX = Mathf.Clamp(_currentAngleX, -_maxLookAngleX, _maxLookAngleX);
-        cameraControler.SetXAngleOffset(_currentAngleX);
-        transform.Rotate(new Vector3(0, lookDelta.x * _lookSensivity * Time.deltaTime));
+        float xAngle = _currentAngleX + lookDelta.y * _lookSensivity * Time.fixedDeltaTime;
+        _currentAngleX = Mathf.Clamp(xAngle, -_maxLookAngleX, _maxLookAngleX);
 
-        Vector3 dronePosTarget = cameraControler.transform.position + (cameraControler.transform.forward * _droneDistance);
-        _droneTransorm.position = Vector3.Lerp(_droneTransorm.position, dronePosTarget, Time.deltaTime * _droneFollowSpeed);
-        _droneTransorm.rotation = Quaternion.Slerp(_droneTransorm.rotation, cameraControler.transform.rotation, Time.deltaTime * _droneFollowSpeed);
+        transform.Rotate(Vector3.up * lookDelta.x * _lookSensivity * Time.fixedDeltaTime);
+        _cameraPivot.localRotation = Quaternion.Euler(-_currentAngleX, 0, 0);
+
+        SetDronePosition();
+    }
+
+    private void SetDronePosition()
+    {
+        Vector3 cameraPosition = Vector3.zero;
+        Quaternion cameraRotation = Quaternion.identity;
+        cameraStateMachine.OutCameraPositionAndRotation(out cameraPosition, out cameraRotation);
+
+        Vector3 droneTargetPosition = cameraPosition + cameraRotation * Vector3.forward * _droneDistance;
+        _droneRb.position = Vector3.Lerp(_droneRb.position, droneTargetPosition, _droneFollowSpeed * Time.fixedDeltaTime);
+        _droneRb.rotation = Quaternion.Lerp(_droneRb.rotation, cameraRotation, _droneFollowSpeed * Time.fixedDeltaTime);
     }
 
     public override void ExitControler()
     {
-        _droneTransorm.parent = transform;
+        _droneRb.transform.parent = transform;
     }
 
     public override void FirstAbility()
@@ -50,5 +62,4 @@ public class PhotoControlable : PlayerControlable
     {
         _photoCameraDetector.PrintPhotos();
     }
-
 }

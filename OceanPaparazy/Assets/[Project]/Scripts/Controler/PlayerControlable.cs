@@ -11,19 +11,20 @@ using UnityEngine;
 public abstract class PlayerControlable
 {
     protected Transform transform;
-    protected CameraControler cameraControler;
+    protected CameraStateMachine cameraStateMachine;
 
     public virtual void Initialize(Transform transform)
     {
         this.transform = transform;
-        if (Camera.main != null) this.cameraControler = Camera.main.GetComponent<CameraControler>();
+        if (Camera.main != null) this.cameraStateMachine = Camera.main.GetComponent<CameraStateMachine>();
     }
 
-    public abstract void EnterControler();
-    public abstract void UpdateControler(Vector2 inputDirection, Vector2 lookDelta);
-    public abstract void ExitControler();
+    public virtual void EnterControler() { }
+    public virtual void UpdateControler(Vector2 inputDirection, Vector2 lookDelta) { }
+    public virtual void FixedUpdateControler(Vector2 inputDirection, Vector2 lookDelta) { }
+    public virtual void ExitControler() { }
 
-    public abstract void SecondAbility();
-    public abstract void FirstAbility();
+    public virtual void SecondAbility() { }
+    public virtual void FirstAbility() { }
 
 }

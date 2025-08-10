@@ -41,8 +41,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5587482327596506329}
+  - component: {fileID: 6910094383811806687}
   - component: {fileID: 7563695754070293663}
-  - component: {fileID: 5342123939149482914}
   - component: {fileID: 7932606833266935611}
   - component: {fileID: 363776685463289711}
   - component: {fileID: 1076038746388093680}
@@ -61,14 +61,32 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6332163808107330643}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 42.6}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8857516022609129747}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6910094383811806687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6332163808107330643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c4cd43cd298cf54889f83c4b88beed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _debugStateName: 
+  controledCamera: {fileID: 7932606833266935611}
+  cameraStateSpline:
+    _movementSpeed: 5
+    positionOffSet: {x: 0, y: 8, z: -20}
+    lookOffSet: {x: 0, y: 3, z: 0}
 --- !u!114 &7563695754070293663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,28 +105,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _maxDistance: 100
-  _saveFolderPath: D:/GitHub/Projet/OceanPaparazy/OceanPaparazy/Assets
+  _saveFolderPath: C:\UnityProject\Perso\Git_OceanPaparazy\OceanPaparazy\OceanPaparazy\Assets
   _sprites: []
   _limit: 5
---- !u!114 &5342123939149482914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6332163808107330643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1b3c1c49a8ca146819d2beaf6c397a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _target: {fileID: 0}
-  _settings:
-    distance: 0
-    inputSensitivity: 0
-    targetPositionOffset: {x: 0, y: 0, z: 0}
-    cameraPositionOffset: {x: 0, y: 0, z: 0}
-    isFirstPerson: 0
 --- !u!20 &7932606833266935611
 Camera:
   m_ObjectHideFlags: 0
