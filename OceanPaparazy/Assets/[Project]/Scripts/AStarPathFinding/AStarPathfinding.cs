@@ -4,15 +4,17 @@ using UnityEngine;
 
 public static class AStarPathfinding
 {
-    public static Vector3[] GetPath(GridCell startCell, GridCell endCell)
+    public static Vector3[] GetPath(GridCell startCell, GridCell endCell, int maxIterations = 100)
     {
         List<GridCell> openSet = new List<GridCell>();
         HashSet<GridCell> closedSet = new HashSet<GridCell>();
 
         openSet.Add(startCell);
+        int iterations = 0;
 
         while (openSet.Count > 0)
         {
+
             GridCell currentCell = openSet[0];
             for (int i = 1; i < openSet.Count; i++)
             {
@@ -25,12 +27,13 @@ public static class AStarPathfinding
 
             openSet.Remove(currentCell);
             closedSet.Add(currentCell);
+            iterations++;
 
-            if (currentCell == endCell)
+            if (currentCell == endCell || iterations >= maxIterations)
             {
                 // Reconstruct path
                 List<Vector3> path = new List<Vector3>();
-                GridCell temp = endCell;
+                GridCell temp = currentCell;
                 while (temp != startCell)
                 {
                     path.Add(temp.worldPosition);
