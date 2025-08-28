@@ -66,8 +66,8 @@ public class Fish : MonoBehaviour
         _pathArray = AStarPathfinding.GetPath(startCell, endCell);
         _smoothPathArray = SmoothPath(_pathArray);
 
-        print($"New Path | Start Cell : {(startCell != null ? startCell.worldPosition : "null")}, End Cell : {(endCell != null ? endCell.worldPosition : "null")}");
-        print("New Path Array: " + _pathArray.Length + " points");
+        // print($"New Path | Start Cell : {(startCell != null ? startCell.worldPosition : "null")}, End Cell : {(endCell != null ? endCell.worldPosition : "null")}");
+        // print("New Path Array: " + _pathArray.Length + " points");
 
         if (_pathArray.Length <= 1)
         {
