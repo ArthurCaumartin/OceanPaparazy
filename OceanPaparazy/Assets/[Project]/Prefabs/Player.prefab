@@ -181,10 +181,14 @@ MonoBehaviour:
     _droneFollowSpeed: 12
   _droneControler:
     _droneRigidbody: {fileID: 8174400427116075917}
-    _movementSpeed: 150
-    _movementAcceleration: 2
-    _lookSensivity: 10
+    _photoCamera: {fileID: 78435790532383875}
+    _movementSpeed: 200
+    _movementAcceleration: 4
+    _lookSensivity: 5
     _maxLookAngleX: 80
+    _maxFOV: 60
+    _minFOV: 10
+    _zoomSpeed: 2
 --- !u!136 &5726628125793746988
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -256,6 +260,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3014686266874510183, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
+      propertyPath: m_Constraints
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 7536191136851384014, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
       propertyPath: m_Name
       value: Drone
@@ -265,6 +273,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
+--- !u!20 &78435790532383875 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6463144992337540201, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
+  m_PrefabInstance: {fileID: 6388106271836578026}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4621708621493735050 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1766685723437379168, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
