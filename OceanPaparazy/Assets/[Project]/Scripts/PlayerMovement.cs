@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void OnSwapControler()
+    private void OnSwapControler(bool isPressed)
     {
         if (_currentControler is SplineControlable)
         {
@@ -84,14 +84,14 @@ public class PlayerMovement : MonoBehaviour
         _lookDelta = value;
     }
 
-    private void OnFirstAbility()
+    private void OnFirstAbility(bool isPressed)
     {
-        _currentControler?.FirstAbility();
+        _currentControler?.FirstAbility(isPressed);
     }
 
-    private void OnSecondAbility()
+    private void OnSecondAbility(bool isPressed)
     {
-        _currentControler?.SecondAbility();
+        _currentControler?.SecondAbility(isPressed);
     }
 
     private void OnEnable()

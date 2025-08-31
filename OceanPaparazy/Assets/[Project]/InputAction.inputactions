@@ -34,21 +34,21 @@
                 },
                 {
                     "name": "FirstAbility",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "94895edc-3acd-4d4c-acbd-7d8aedf10adc",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "SecondAbility",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "4f301f70-9c9c-4ed8-90c9-cbe6b75d7b95",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [

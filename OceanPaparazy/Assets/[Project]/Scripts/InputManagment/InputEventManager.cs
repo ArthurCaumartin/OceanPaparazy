@@ -3,26 +3,15 @@ using UnityEngine.InputSystem;
 
 public class InputEventManager : MonoBehaviour
 {
-    public delegate void SwapControlerHandler();
-    public static event SwapControlerHandler OnSwapControlerEvent;
+    public delegate void VectorEvent(Vector2 inputDirection);
+    public static event VectorEvent OnMoveEvent;
+    public static event VectorEvent OnLookEvent;
 
-    public delegate void MoveHandler(Vector2 inputDirection);
-    public static event MoveHandler OnMoveEvent;
+    public delegate void ButtonEvent(bool isPressed);
+    public static event ButtonEvent OnSwapControlerEvent;
+    public static event ButtonEvent OnAbilityFirstEvent;
+    public static event ButtonEvent OnAbilitySecondEvent;
 
-    public delegate void LookHandler(Vector2 lookDelta);
-    public static event LookHandler OnLookEvent;
-
-    public delegate void AbilityFirstHandler();
-    public static event AbilityFirstHandler OnAbilityFirstEvent;
-
-    public delegate void AbilitySecondHandler();
-    public static event AbilitySecondHandler OnAbilitySecondEvent;
-
-    private void OnSwapControler(InputValue value)
-    {
-        if (OnSwapControlerEvent != null && value.Get<float>() > 0.5f)
-            OnSwapControlerEvent.Invoke();
-    }
 
     private void OnMove(InputValue value)
     {
@@ -38,11 +27,19 @@ public class InputEventManager : MonoBehaviour
 
     private void OnFirstAbility(InputValue value)
     {
-        OnAbilityFirstEvent?.Invoke();
+        bool isPressed = value.Get<float>() > 0.5f;
+        OnAbilityFirstEvent?.Invoke(isPressed);
     }
 
     private void OnSecondAbility(InputValue value)
     {
-        OnAbilitySecondEvent?.Invoke();
+        bool isPressed = value.Get<float>() > 0.5f;
+        OnAbilitySecondEvent?.Invoke(isPressed);
+    }
+
+    private void OnSwapControler(InputValue value)
+    {
+        bool isPressed = value.Get<float>() > 0.5f;
+        OnSwapControlerEvent.Invoke(isPressed);
     }
 }

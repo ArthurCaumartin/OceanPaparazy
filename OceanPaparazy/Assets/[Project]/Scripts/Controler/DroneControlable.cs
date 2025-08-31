@@ -1,11 +1,15 @@
 using System;
 using Alchemy.Inspector;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 [Serializable]
 public class DroneControlable : PlayerControlable
 {
     [SerializeField] private Rigidbody _droneRigidbody;
+    [SerializeField] private Camera _photoCamera;
+
+    [Header("Movement and Look Settings : ")]
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private float _movementAcceleration = 2f;
     [SerializeField] private float _lookSensivity = 2f;
@@ -31,6 +35,12 @@ public class DroneControlable : PlayerControlable
     }
 
     public override void FixedUpdateControler(Vector2 inputDirection, Vector2 lookDelta)
+    {
+        MoveAndRotate(inputDirection, lookDelta);
+    }
+ 
+
+    private void MoveAndRotate(Vector2 inputDirection, Vector2 lookDelta)
     {
         // move with velocity
         Vector3 targetVelocity = new Vector3(inputDirection.x, 0, inputDirection.y) * _movementSpeed * Time.deltaTime;

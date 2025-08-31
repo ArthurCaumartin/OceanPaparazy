@@ -24,7 +24,6 @@ public abstract class PlayerControlable
     public virtual void FixedUpdateControler(Vector2 inputDirection, Vector2 lookDelta) { }
     public virtual void ExitControler() { }
 
-    public virtual void SecondAbility() { }
-    public virtual void FirstAbility() { }
-
+    public virtual void SecondAbility(bool isPressed) { }
+    public virtual void FirstAbility(bool isPressed) { }
 }

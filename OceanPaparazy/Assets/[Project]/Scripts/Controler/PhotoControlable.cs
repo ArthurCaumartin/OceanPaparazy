@@ -7,12 +7,15 @@ public class PhotoControlable : PlayerControlable
     [SerializeField] private Rigidbody _droneRb;
     [SerializeField] private Transform _cameraPivot;
     [Space]
+    [Header("Movement and Look Settings : ")]
     [SerializeField] private float _lookSensivity = 2f;
     [SerializeField] private float _maxLookAngleX = 80f;
     [SerializeField] private float _droneDistance = 2;
     [SerializeField] private float _droneFollowSpeed = 2;
-    private PhotoCameraDetector _photoCameraDetector;
     private float _currentAngleX;
+
+
+    private PhotoCameraDetector _photoCameraDetector;
 
     public override void EnterControler()
     {
@@ -24,6 +27,7 @@ public class PhotoControlable : PlayerControlable
     {
         base.Initialize(transform);
         _photoCameraDetector = cameraStateMachine.GetComponent<PhotoCameraDetector>();
+
     }
 
     public override void FixedUpdateControler(Vector2 inputDirection, Vector2 lookDelta)
@@ -48,18 +52,23 @@ public class PhotoControlable : PlayerControlable
         _droneRb.rotation = Quaternion.Lerp(_droneRb.rotation, cameraRotation, _droneFollowSpeed * Time.fixedDeltaTime);
     }
 
+
+
     public override void ExitControler()
     {
         _droneRb.transform.parent = transform;
     }
 
-    public override void FirstAbility()
+    public override void FirstAbility(bool isPressed)
     {
-        _photoCameraDetector.TakePhoto();
+        Debug.Log("DroneControlable: FirstAbility | Zoom : " + isPressed);
+        base.FirstAbility(isPressed);
+
     }
 
-    public override void SecondAbility()
+    public override void SecondAbility(bool isPressed)
     {
+        _photoCameraDetector.TakePhoto();
         _photoCameraDetector.PrintPhotos();
     }
 }
