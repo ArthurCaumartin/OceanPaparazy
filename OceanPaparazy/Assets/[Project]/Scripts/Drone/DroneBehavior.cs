@@ -1,8 +1,10 @@
 using UnityEngine;
 
-public class DroneControler : MonoBehaviour
+public class DroneBehavior : MonoBehaviour
 {
     [SerializeField] private Camera _photoCamera;
+    [SerializeField] private DroneCameraUI _droneCameraUI;
+    [SerializeField] private PhotoTargetDetector _photoTargetDetector;
 
     [Header("PhotoTaker Settings : ")]
     [SerializeField] private float _maxFOV = 60f;
@@ -21,6 +23,9 @@ public class DroneControler : MonoBehaviour
     private void Update()
     {
         UpdateZoom();
+        
+        PhotoTarget target = _photoTargetDetector.MostCenterTarget;
+        _droneCameraUI.SetSelectorPosition(target ? target.transform.position : null);
     }
 
     private void UpdateZoom()
