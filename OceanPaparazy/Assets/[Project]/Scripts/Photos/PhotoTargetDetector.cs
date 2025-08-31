@@ -9,6 +9,7 @@ public class PhotoTargetDetector : MonoBehaviour
     [SerializeField, Range(1, 20)] private int _detectionResolution = 5;
     [SerializeField, Range(0.1f, 1f)] private float _detectionSize = 0.95f;
     [SerializeField] private LayerMask _targetLayerMask;
+    [SerializeField] private LayerMask _terrainLayerMask;
 
     [SerializeField] private List<PhotoTarget> _photoTargetInRangeList = new List<PhotoTarget>();
 
@@ -64,7 +65,11 @@ public class PhotoTargetDetector : MonoBehaviour
             {
                 PhotoTarget target = hitColliders[j].GetComponent<PhotoTarget>();
                 if (target != null && !_photoTargetInRangeList.Contains(target))
+                {
+                    if(Physics.Linecast(transform.position, target.transform.position, _terrainLayerMask))
+                        continue;
                     _photoTargetInRangeList.Add(target);
+                }
             }
         }
     }
