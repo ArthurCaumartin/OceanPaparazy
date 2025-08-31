@@ -1074,6 +1074,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _photoCamera: {fileID: 6463144992337540201}
+  _droneCameraUI: {fileID: 4942989217560663350}
+  _photoTargetDetector: {fileID: 7718391555826596592}
   _maxFOV: 120
   _minFOV: 10
   _zoomSpeed: 2
@@ -1097,6 +1099,9 @@ MonoBehaviour:
   _targetLayerMask:
     serializedVersion: 2
     m_Bits: 1024
+  _terrainLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048
   _photoTargetInRangeList: []
 --- !u!114 &4942989217560663350
 MonoBehaviour:
@@ -1110,9 +1115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4810974c07bf7154aa6cbf8e5e5447c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _photoTargetDetector: {fileID: 7718391555826596592}
   _photoCamera: {fileID: 6463144992337540201}
-  _image: {fileID: 9076698276585674118}
+  _imageTargetSelector: {fileID: 9076698276585674118}
 --- !u!135 &4052591957085392254
 SphereCollider:
   m_ObjectHideFlags: 0
