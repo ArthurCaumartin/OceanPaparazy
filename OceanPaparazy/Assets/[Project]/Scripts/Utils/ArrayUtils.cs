@@ -15,4 +15,15 @@ public static class ArrayUtils
             }
         }
     }
+
+    public static void LoopIn<T>(this T[,] array, Action<int, int> toDo)
+    {
+        for (int x = 0; x < array.GetLength(0); x++)
+        {
+            for (int y = 0; y < array.GetLength(1); y++)
+            {
+                toDo(x, y);
+            }
+        }
+    }
 }
