@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using Alchemy.Inspector;
 using UnityEngine;
 
-[HideScriptField, ExecuteInEditMode]
+[ExecuteInEditMode]
 public class LevelGrid : MonoBehaviour
 {
     [SerializeField, Range(0, .5f)] private float _gizmosAlpha = 0.2f;
     [SerializeField] private bool _DebugShowGrid = true;
+    
     [SerializeField] private bool _DebugBuildGridIfMove = false;
     [SerializeField] private bool _DebugBuildGridOnUpdate = false;
     [Space]
