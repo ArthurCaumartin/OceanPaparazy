@@ -22,11 +22,13 @@ public class Fish : MonoBehaviour
 
     void Start()
     {
+        if (!_levelGrid) return;
         SetNewPathArray();
     }
 
     void Update()
     {
+        if (!_levelGrid) return;
         if (_pathArray.Length == 0) return;
 
         _pathTime += (Time.deltaTime * _speed) / _pathDistance;
@@ -37,7 +39,7 @@ public class Fish : MonoBehaviour
         }
 
         transform.position = Vector3.Lerp(_startPos, _endPos, _pathTime);
-        transform.forward = Vector3.Slerp((_endPos - _startPos).normalized, transform.forward, Time.deltaTime * 5f);
+        transform.forward = Vector3.Lerp(transform.forward, (_endPos - _startPos).normalized, Time.deltaTime * 15f);
     }
 
     private void SetNextPath()
@@ -83,9 +85,26 @@ public class Fish : MonoBehaviour
 
     private Vector3[] SmoothPath(Vector3[] path)
     {
-
-        //TODO : detecter les virages et les smooth
         return path;
+        if (path.Length < 3) return path;
+
+        //? detecte les virages
+        // si y'en a un, on ajoute un point entre les deux points du virage
+        List<Vector3> newPath = new List<Vector3>();
+        for (int i = 1; i < path.Length - 1; i++)
+        {
+            Vector3 dir1 = (path[i] - path[i - 1]).normalized;
+            Vector3 dir2 = (path[i + 1] - path[i]).normalized;
+
+            newPath.Add(path[i - 1]);
+
+            if (Vector3.Dot(dir1, dir2) < 0.99f)
+            {
+                Vector3 newPoint = Vector3.Lerp(path[i - 1], path[i], _smoothPathSubdivision);
+                newPath.Add(newPoint);
+            }
+        }
+        return newPath.ToArray();
     }
 
     void OnDrawGizmos()
@@ -100,16 +119,19 @@ public class Fish : MonoBehaviour
             }
         }
 
-        if (_startCell != null)
+        if (_debugPath || _debugSmoothPath)
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(_startCell.worldPosition, _levelGrid.CellSize * 0.2f);
-        }
+            if (_startCell != null)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(_startCell.worldPosition, _levelGrid.CellSize * 0.2f);
+            }
 
-        if (_endCell != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(_endCell.worldPosition, _levelGrid.CellSize * 0.2f);
+            if (_endCell != null)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(_endCell.worldPosition, _levelGrid.CellSize * 0.2f);
+            }
         }
 
         if (_pathArray == null) return;
