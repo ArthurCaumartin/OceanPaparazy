@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24c036cd845d1654cba13691f7429b71, type: 3}
+  m_Name: Album_Test
+  m_EditorClassIdentifier: 
+  photoTargetList:
+  - {fileID: 11400000, guid: 6d99d59d8c328aa4c9f356ade2156719, type: 2}
+  - {fileID: 11400000, guid: e72f3b99602fe444f9584c3a09e36d18, type: 2}
+  - {fileID: 11400000, guid: 214827cd8f7a6554bad26b00b8486afe, type: 2}
+  - {fileID: 11400000, guid: fe4de5d69cbd8bb4997d12af72569007, type: 2}
