@@ -2,10 +2,27 @@ using UnityEngine;
 
 public class PhotoTarget : MonoBehaviour
 {
-    [SerializeField] private string targetName;
-    [SerializeField] private int scoreValue;
+    [SerializeField] private ScriptablePhotoTarget scriptablePhotoTarget;
 
-    public string TargetName => targetName;
-    public int ScoreValue => scoreValue;
+    public string Name
+    {
+        get { return scriptablePhotoTarget ? scriptablePhotoTarget.Name : "No Data Set"; }
+    }
 
+    public bool IsPhotoTaken
+    {
+        get { return scriptablePhotoTarget ? scriptablePhotoTarget.IsPhotoTaken : false; }
+    }
+
+    public void MarkPhotoAsTaken(string photoPath)
+    {
+        if (!scriptablePhotoTarget)
+        {
+            Debug.LogWarning("ScriptablePhotoTarget is not assigned.");
+            return;
+        }
+
+        scriptablePhotoTarget.IsPhotoTaken = true;
+        scriptablePhotoTarget.PhotoPath = photoPath;
+    }
 }
