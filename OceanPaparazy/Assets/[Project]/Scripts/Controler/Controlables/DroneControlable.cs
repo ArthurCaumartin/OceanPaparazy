@@ -24,7 +24,7 @@ public class DroneControlable : PlayerControlable
     public override void EnterControler()
     {
         Debug.Log("DroneControlable: EnterControler | Set camera target to : " + _droneRigidbody.transform.name);
-        cameraStateMachine.SetState(cameraStateMachine.CameraStateFirstPerson, _droneRigidbody.transform);
+        cameraStateMachine.SetCameraState(cameraStateMachine.CameraStateFirstPerson, _droneRigidbody.transform);
 
         Vector3 newForward = _droneRigidbody.transform.forward;
         newForward.y = 0;

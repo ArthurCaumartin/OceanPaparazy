@@ -25,7 +25,7 @@ public class PhotoControlable : PlayerControlable
 
     public override void EnterControler()
     {
-        cameraStateMachine.SetState(cameraStateMachine.CameraStateFirstPerson, _cameraPivot);
+        cameraStateMachine.SetCameraState(cameraStateMachine.CameraStateFirstPerson, _cameraPivot);
         _droneRb.transform.parent = null;
     }
 

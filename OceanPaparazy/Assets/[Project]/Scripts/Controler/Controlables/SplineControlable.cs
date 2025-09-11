@@ -23,7 +23,7 @@ public class SplineControlable : PlayerControlable
         SetToSplinePosition(transform, _currentSplineTime, _currentAltitude);
         SetToSplineRotation(transform, _currentSplineTime);
 
-        cameraStateMachine.SetState(cameraStateMachine.CameraStateSpline, transform);
+        cameraStateMachine.SetCameraState(cameraStateMachine.CameraStateSpline, transform);
     }
 
     public override void UpdateControler(Vector2 inputDirection, Vector2 lookDelta)

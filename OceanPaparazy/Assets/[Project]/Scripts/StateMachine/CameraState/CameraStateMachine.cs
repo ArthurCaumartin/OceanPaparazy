@@ -1,12 +1,10 @@
 using UnityEngine;
 
-public class CameraStateMachine : MonoBehaviour
+public class CameraStateMachine : StateMachine
 {
-    [SerializeField] private string _debugStateName;
     [SerializeField] private Camera controledCamera;
-    [SerializeField] private CameraStateSpline cameraStateSpline = new CameraStateSpline();
-    [SerializeField] private CameraStateFirstPerson cameraStateFirstPerson = new CameraStateFirstPerson();
-    private CameraState _currentState;
+    [SerializeField] private CameraStateSpline cameraStateSpline = new();
+    [SerializeField] private CameraStateFirstPerson cameraStateFirstPerson = new();
     private Vector2 _movementInput;
     private Vector2 _lookInput;
 
@@ -18,29 +16,25 @@ public class CameraStateMachine : MonoBehaviour
     {
         controledCamera = Camera.main;
 
-        cameraStateSpline.Initialize(controledCamera);
-        cameraStateFirstPerson.Initialize(controledCamera);
+        cameraStateSpline.Init(this, controledCamera, null);
+        cameraStateFirstPerson.Init(this, controledCamera, null);
     }
 
-    private void Update()
+    protected override void Update()
     {
-        if (_currentState == null) return;
-
-        //TODO add transition logic
-
-        _currentState.UpdateState(_movementInput, _lookInput);
+        if (currentState == null) return;
+        (currentState as CameraState).UpdateStateInput(_movementInput, _lookInput);
     }
 
-    public void SetState(CameraState newState, Transform redefineTarget = null)
+    public void SetCameraState(CameraState newState, Transform redefineTarget = null)
     {
         if (newState == null) return;
-        // if (_currentState != null && _currentState.GetType() == newState.GetType())
-        //     return;
 
-        _currentState?.Exit();
-        _currentState = newState;
-        _debugStateName = _currentState.ToString();
-        _currentState?.Enter(redefineTarget);
+        currentState?.ExitState();
+        currentState = newState;
+        debugStateName = currentState.ToString();
+        currentState?.EnterState();
+        (currentState as CameraState).SetTarget(redefineTarget);
     }
 
     private void SetMovementInput(Vector2 input) => _movementInput = input;
