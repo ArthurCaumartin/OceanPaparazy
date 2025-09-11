@@ -343,29 +343,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5897552844570242423, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6463144992337540201, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
-      propertyPath: field of view
-      value: 60
-      objectReference: {fileID: 0}
     - target: {fileID: 7536191136851384014, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
       propertyPath: m_Name
       value: Drone
-      objectReference: {fileID: 0}
-    - target: {fileID: 7718391555826596592, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
-      propertyPath: _debugGizmo
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7718391555826596592, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
-      propertyPath: _detectionSize
-      value: 0.95
-      objectReference: {fileID: 0}
-    - target: {fileID: 7718391555826596592, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
-      propertyPath: _detectionResolution
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
