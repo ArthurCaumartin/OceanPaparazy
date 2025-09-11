@@ -166,29 +166,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _debug_state_name: 
-  _camera: {fileID: 0}
-  _splineContainer: {fileID: 0}
   _splineControler:
+    _splineContainer: {fileID: 0}
     _movementSpeed: 15
     _movementAcceleration: 5
     _meshTransform: {fileID: 7301976841958234662}
   _photoControler:
     _droneRb: {fileID: 8174400427116075917}
+    _droneBehavior: {fileID: 684351291928317341}
     _cameraPivot: {fileID: 7239614158400494239}
     _lookSensivity: 10
     _maxLookAngleX: 80
+    _zoomSpeed: 5
     _droneDistance: 1.1
     _droneFollowSpeed: 12
-  _droneControler:
-    _droneRigidbody: {fileID: 8174400427116075917}
-    _photoCamera: {fileID: 78435790532383875}
-    _movementSpeed: 200
-    _movementAcceleration: 4
-    _lookSensivity: 5
-    _maxLookAngleX: 80
-    _maxFOV: 60
-    _minFOV: 10
-    _zoomSpeed: 2
 --- !u!136 &5726628125793746988
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -222,15 +213,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1766685723437379168, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1766685723437379168, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.4
+      value: 1.62
       objectReference: {fileID: 0}
     - target: {fileID: 1766685723437379168, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.8300018
+      value: 3.6
       objectReference: {fileID: 0}
     - target: {fileID: 1766685723437379168, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -238,15 +229,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1766685723437379168, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1766685723437379168, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1766685723437379168, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1766685723437379168, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -273,11 +264,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
---- !u!20 &78435790532383875 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 6463144992337540201, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
+--- !u!114 &684351291928317341 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5897552844570242423, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
   m_PrefabInstance: {fileID: 6388106271836578026}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8769b39e2bbcb244bbde72fe03ad38e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4621708621493735050 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1766685723437379168, guid: 9d3d544ef9c83fe47a2e3620edabf00e, type: 3}
