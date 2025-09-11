@@ -579,7 +579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e78c36f97056e04c99192f3f007e30f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _photoDataList: []
+  _renderTexture: {fileID: 8400000, guid: a308086c2312e7642b42bdef404f93c1, type: 2}
 --- !u!20 &6463144992337540201
 Camera:
   m_ObjectHideFlags: 0
