@@ -2,23 +2,25 @@ using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    private State _currentState;
+    [SerializeField] protected string debugStateName;
+    protected State currentState;
 
     public void SetState(State toSet)
     {
-        if (toSet == _currentState) return;
-        _currentState?.ExitState();
-        _currentState = toSet;
-        _currentState.EnterState();
+        if (toSet == currentState) return;
+        currentState?.ExitState();
+        currentState = toSet;
+        debugStateName = currentState.ToString();
+        currentState.EnterState();
     }
 
-    public virtual void Update()
+    protected virtual void Update()
     {
-        _currentState?.UpdateState();
+        currentState?.UpdateState();
     }
 
-    public virtual void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
-        _currentState?.FixedUpdateState();
+        currentState?.FixedUpdateState();
     }
 }
