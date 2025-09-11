@@ -5,17 +5,13 @@ using UnityEngine.Splines;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private string _debug_state_name;
-    [SerializeField] private Camera _camera;
-    [SerializeField] private SplineContainer _splineContainer;
 
     [Header("Controlers : ")]
     [SerializeField] private SplineControlable _splineControler = new SplineControlable();
     [SerializeField] private PhotoControlable _photoControler = new PhotoControlable();
-    [SerializeField] private DroneControlable _droneControler = new DroneControlable();
 
     public SplineControlable SplineControler { get => _splineControler; }
     public PhotoControlable PhotoControler { get => _photoControler; }
-    public DroneControlable DroneControler { get => _droneControler; }
     private PlayerControlable _currentControler;
 
     private Vector2 _inputDirection;
@@ -24,10 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _splineControler.Initialize(transform);
-        _splineControler.SetSplineContainer(_splineContainer);
-
         _photoControler.Initialize(transform);
-        _droneControler.Initialize(transform);
 
         SetControler(SplineControler);
     }
@@ -55,23 +48,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnSwapControler(bool isPressed)
     {
-        if (_currentControler is SplineControlable)
-        {
-            SetControler(PhotoControler);
-            return;
-        }
-
-        if (_currentControler is DroneControlable)
-        {
-            SetControler(SplineControler);
-            return;
-        }
-
-        if (_currentControler is PhotoControlable)
-        {
-            SetControler(DroneControler);
-            return;
-        }
+        if (!isPressed) return;
+        SetControler(_currentControler is SplineControlable ? PhotoControler : SplineControler);
     }
 
     private void OnMove(Vector2 value)
