@@ -11,7 +11,7 @@ public class PhotoTargetDetector : MonoBehaviour
     [SerializeField] private LayerMask _targetLayerMask;
     [SerializeField] private LayerMask _terrainLayerMask;
 
-    [SerializeField] private List<PhotoTarget> _photoTargetInRangeList = new List<PhotoTarget>();
+    private List<PhotoTarget> _photoTargetInRangeList = new List<PhotoTarget>();
 
     public PhotoTarget MostCenterTarget
     {
