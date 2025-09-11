@@ -29,7 +29,7 @@ public class DroneBehavior : MonoBehaviour
 
     public void TakePhoto()
     {
-        _cameraPhotoTaker.SavePNG(_photoTargetDetector.MostCenterTarget);
+        _cameraPhotoTaker.TakePhoto(_photoTargetDetector.MostCenterTarget);
     }
 
     private void UpdateZoom()
