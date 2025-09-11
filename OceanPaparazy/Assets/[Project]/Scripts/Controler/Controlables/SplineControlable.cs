@@ -1,12 +1,12 @@
 using System;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Splines;
 
 [Serializable]
 public class SplineControlable : PlayerControlable
 {
+    [SerializeField] private SplineContainer _splineContainer;
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private float _movementAcceleration = 2f;
     [Space]
@@ -15,7 +15,6 @@ public class SplineControlable : PlayerControlable
     private float _dynamiqueSpeedX;
     private float _dynamiqueSpeedY;
     private float _currentAltitude;
-    private SplineContainer _splineContainer;
 
     public override void EnterControler()
     {
@@ -25,11 +24,6 @@ public class SplineControlable : PlayerControlable
         SetToSplineRotation(transform, _currentSplineTime);
 
         cameraStateMachine.SetState(cameraStateMachine.CameraStateSpline, transform);
-    }
-
-    public void SetSplineContainer(SplineContainer splineContainer)
-    {
-        _splineContainer = splineContainer;
     }
 
     public override void UpdateControler(Vector2 inputDirection, Vector2 lookDelta)
