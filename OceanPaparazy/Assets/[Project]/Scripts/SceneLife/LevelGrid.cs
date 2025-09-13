@@ -57,7 +57,7 @@ public class LevelGrid : MonoBehaviour
         //? first pass to create the grid cells
         _gridCell.LoopIn((x, y, z) =>
         {
-            Vector3 position = (new Vector3(x, y, z) * _cellSize);
+            Vector3 position = new Vector3(x, y, z) * _cellSize;
             position = transform.TransformPoint(position);
 
             Collider[] cols = Physics.OverlapBox(position, Vector3.one * .5f * _cellSize, Quaternion.identity, _cellLayerMask);
