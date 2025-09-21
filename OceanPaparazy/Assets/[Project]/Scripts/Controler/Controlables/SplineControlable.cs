@@ -18,6 +18,12 @@ public class SplineControlable : PlayerControlable
 
     public override void EnterControler()
     {
+        if (!_splineContainer || _splineContainer.Splines.Count == 0)
+        {
+            Debug.LogError("No Spline in SplineContainer");
+            return;
+        }
+
         GoOnNearSplinePoint(transform, _splineContainer);
 
         SetToSplinePosition(transform, _currentSplineTime, _currentAltitude);
@@ -28,7 +34,11 @@ public class SplineControlable : PlayerControlable
 
     public override void UpdateControler(Vector2 inputDirection, Vector2 lookDelta)
     {
-        //Debug.Log($"SplineControlable UpdateControler | dir : {inputDirection} | look : {lookDelta}");
+        if (!_splineContainer || _splineContainer.Splines.Count == 0)
+        {
+            Debug.LogError("No Spline in SplineContainer");
+            return;
+        }
 
         _dynamiqueSpeedX = GetDynamicSpeed(_dynamiqueSpeedX, inputDirection.x, _movementAcceleration);
         _dynamiqueSpeedY = GetDynamicSpeed(_dynamiqueSpeedY, inputDirection.y, _movementAcceleration);
